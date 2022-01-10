@@ -2,12 +2,18 @@
 Garbage Classification using a tflite model with Android Studio:
 
 The Garbage Classification Dataset was avaliable in Kaggle I used the same to train and test using teachable machine and exported it as quantized tflite model
+
 The images are classified into
-Cardboard,
-Paper,
-Glass,
-Plastic and
-Metal
+
+->Cardboard
+
+->Paper
+
+->Glass
+
+->Plastic
+
+->Metal
 
 The Accuracy of the model can be increased by training a better dataset(more data) 
 
