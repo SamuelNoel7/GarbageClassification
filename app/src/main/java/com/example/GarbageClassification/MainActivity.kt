@@ -78,40 +78,49 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent, 250)
         })
 
-        make_prediction.setOnClickListener(View.OnClickListener {
-            //create a new bitmap scaled from an existing one
-            var resized = Bitmap.createScaledBitmap(bitmap, 224, 224, true)
 
-            val model = Model.newInstance(this)
-            var tbuffer = TensorImage.fromBitmap(resized)
-            var byteBuffer = tbuffer.buffer
+
+            make_prediction.setOnClickListener(
+                        View.OnClickListener {
+                            if(img_view.getDrawable()== null)
+                            {
+                                Toast.makeText(this,"Upload a pic ",Toast.LENGTH_LONG).show()
+                            }
+                            else {
+                //create a new bitmap scaled from an existing one
+                var resized = Bitmap.createScaledBitmap(bitmap, 224, 224, true)
+                val model = Model.newInstance(this)
+                var tbuffer = TensorImage.fromBitmap(resized)
+                var byteBuffer = tbuffer.buffer
 
 // Creates inputs for reference.
 
-            //creates a UINT array of Shape(1,224,224,3) , width and height should match with "resized"
-            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
-            inputFeature0.loadBuffer(byteBuffer)
+                //creates a UINT array of Shape(1,224,224,3) , width and height should match with "resized"
+                val inputFeature0 =
+                    TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
+                inputFeature0.loadBuffer(byteBuffer)
 
 // Runs model inference and gets result.
-            val outputs = model.process(inputFeature0)
-            val outputFeature0 = outputs.outputFeature0AsTensorBuffer
+                val outputs = model.process(inputFeature0)
+                val outputFeature0 = outputs.outputFeature0AsTensorBuffer
 
-            var max = getMax(outputFeature0.floatArray)
+                var max = getMax(outputFeature0.floatArray)
 
-            text_view.setText(labels[max])
+                text_view.setText(labels[max])
 
 // Releases model resources if no longer used.
-            model.close()
-        })
+                model.close()}
+            })
 
-        //capturing an Image and returning it with class MediaStore
-        camerabtn.setOnClickListener(View.OnClickListener {
-            var camera : Intent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(camera, 200)
-        })
+            //capturing an Image and returning it with class MediaStore
+            camerabtn.setOnClickListener(View.OnClickListener {
+                var camera: Intent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(camera, 200)
+            })
+        }
 
 
-    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -145,5 +154,3 @@ class MainActivity : AppCompatActivity() {
         return ind
     }
 }
-
-
