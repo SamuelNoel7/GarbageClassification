@@ -47,7 +47,7 @@
         android:id="@+id/textView"
         android:layout_width="313dp"
         android:layout_height="131dp"
-        android:text="select image and press predict button"
+        android:text="select image and press predict"
         android:textColor="#100F0F"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
